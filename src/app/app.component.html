@@ -1,3 +1,17 @@
-<h1 class="text-4xl font-bold underline text-indigo-600">
-  Tailwind funktioniert!  super
-</h1>
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Ride side: Toolbar + Main Content -->
+  <div class="flex-1 flex flex-col">
+    
+    <!-- Toolbar -->
+    <app-toolbar></app-toolbar>
+
+    <!-- Main content -->
+    <main class="flex-1 bg-gray-100 p-6">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>
