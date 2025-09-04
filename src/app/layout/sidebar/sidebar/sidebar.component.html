@@ -11,8 +11,8 @@
 
   <!-- Navigation Links -->
   <nav class="flex flex-col p-4 space-y-3">
-    <a href="#" class="hover:bg-gray-700 px-4 py-2 rounded transition">🏠 Dashboard</a>
-    <a href="#" class="hover:bg-gray-700 px-4 py-2 rounded transition">👥 Kunden</a>
+    <a [routerLink]="['/dashboard']" class="hover:bg-gray-700 px-4 py-2 rounded transition">🏠 Dashboard</a>
+    <a [routerLink]="['/customers']" class="hover:bg-gray-700 px-4 py-2 rounded transition">👥 Kunden</a>
     <a href="#" class="hover:bg-gray-700 px-4 py-2 rounded transition">📊 Berichte</a>
     <a href="#" class="hover:bg-gray-700 px-4 py-2 rounded transition">⚙️ Einstellungen</a>
   </nav>
