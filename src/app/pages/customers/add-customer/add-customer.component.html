@@ -30,14 +30,93 @@
         Click the circle to upload and crop your profile picture
     </p>
 </div>
-<div class="border-cyan-600 border-2 rounded-xl p-3">
-    <div>
-        <label>Adress</label>
-        <input class="border-cyan-600 border-2 rounded-md">
+
+<div class="border-cyan-600 border-2 rounded-xl p-3 space-y-4 ">
+   
+    <div class="flex justify-between">
+        <div> <!-- Company Name -->
+            <div>
+                <label for="companyName" class="block text-sm font-medium text-gray-700">Company Name</label>
+                <input id="companyName" type="text" placeholder="Enter company name"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- Legal Form -->
+            <div>
+                <label for="legalForm" class="block text-sm font-medium text-gray-700">Legal Form</label>
+                <input id="legalForm" type="text" placeholder="e.g. GmbH, Ltd, Inc."
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- Industry -->
+            <div>
+                <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
+                <input id="industry" type="text" placeholder="e.g. Software, Retail"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- Address -->
+            <div>
+                <label for="address" class="block text-sm font-medium text-gray-700">Street Address</label>
+                <input id="address" type="text" placeholder="Street and number"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+        </div>
+        <!-- ZIP Code -->
+        <div>
+            <div>
+                <label for="zip" class="block text-sm font-medium text-gray-700">Postal Code</label>
+                <input id="zip" type="text" placeholder="Postal code"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- City -->
+            <div>
+                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                <input id="city" type="text" placeholder="City"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- Country -->
+            <div>
+                <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                <input id="country" type="text" placeholder="Country"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- Phone -->
+            <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input id="phone" type="tel" placeholder="e.g. +1 234 567 8900"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+        </div>
+        <!-- Email -->
+        <div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input id="email" type="email" placeholder="info@example.com"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- Website -->
+            <div>
+                <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+                <input id="website" type="url" placeholder="https://www.example.com"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+
+            <!-- VAT Number -->
+            <div>
+                <label for="vat" class="block text-sm font-medium text-gray-700">VAT Number</label>
+                <input id="vat" type="text" placeholder="e.g. DE123456789"
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+            </div>
+        </div>
     </div>
     <div class="flex justify-center">
-        <button
-         (click)="backToCustomer()"   class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out">Back</button>
+        <button (click)="backToCustomer()"
+            class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out">Back</button>
         <button
             class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out ml-3">Add</button>
     </div>
