@@ -1,1 +1,44 @@
-<p>add-customer works!</p>
+<div class="flex items-center justify-center bg-gray-800 rounded-tl-xl rounded-tr-xl p-2">
+    <!-- Left side: Titel -->
+    <h2 class="text-3xl font-bold text-cyan-50">Add a new customer </h2>
+</div>
+<div class="flex flex-col items-center mt-6">
+    <!-- Profile image upload area -->
+    <label class="relative w-32 h-32 cursor-pointer">
+        <!-- Display the cropped/final profile image if available -->
+        <img *ngIf="finalImage" [src]="finalImage" alt="Profile"
+            class="w-32 h-32 object-cover rounded-full border-2 border-cyan-600" />
+        <!-- Placeholder circle shown when no profile image is selected -->
+        <div *ngIf="!finalImage"
+            class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center border-2 border-dashed border-cyan-600 text-gray-500 text-sm">
+            Upload
+        </div>
+        <!-- Invisible file input overlay for selecting image on click -->
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" class="absolute inset-0 opacity-0" />
+    </label>
+    <!-- Image cropper component, visible only when an image file is selected -->
+    <image-cropper *ngIf="imageChangedEvent" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+        [aspectRatio]="1" format="png" outputType="base64" (imageCropped)="imageCropped($event)"
+        class="w-64 h-64 mt-6"></image-cropper>
+    <!-- Confirm button to finalize cropping, shown only when cropping is active -->
+    <button *ngIf="imageChangedEvent" (click)="confirmCrop()" class="mt-4 px-4 py-2 bg-cyan-600 text-white rounded">
+        Confirm
+    </button>
+
+    <!-- Instruction text below upload area -->
+    <p class="mt-2 text-sm text-gray-500">
+        Click the circle to upload and crop your profile picture
+    </p>
+</div>
+<div class="border-cyan-600 border-2 rounded-xl p-3">
+    <div>
+        <label>Adress</label>
+        <input class="border-cyan-600 border-2 rounded-md">
+    </div>
+    <div class="flex justify-center">
+        <button
+         (click)="backToCustomer()"   class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out">Back</button>
+        <button
+            class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out ml-3">Add</button>
+    </div>
+</div>
