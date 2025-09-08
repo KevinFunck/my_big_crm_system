@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { Router } from '@angular/router';
+import { CustomersService } from '../../../services/customers.service';
+import { Customer } from '@models/customer.model';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-add-customer',
   standalone: true,
-  imports: [CommonModule, ImageCropperComponent],
+  imports: [CommonModule, ImageCropperComponent, FormsModule],
   templateUrl: './add-customer.component.html',
   styleUrl: './add-customer.component.css'
 })
@@ -16,10 +19,25 @@ export class AddCustomerComponent {
   croppedImage: string | null = null;
   // The final cropped image base64 string after user confirms the crop
   finalImage: string | null = null;
- 
-   constructor(private router: Router) {}
 
-    // Triggered when file input changes
+  customer: Customer = {
+    companyName: '',
+    legalForm: '',
+    industry: '',
+    address: '',
+    zip: '',
+    city: '',
+    country: '',
+    phone: '',
+    email: '',
+    website: '',
+    vat: '',
+    profileImage: '',
+  };
+
+  constructor(private router: Router, private customersService: CustomersService) { }
+
+  // Triggered when file input changes
   onFileSelected(event: any): void {
     this.imageChangedEvent = event;
     //console.log('File selected event:', event);
@@ -59,6 +77,51 @@ export class AddCustomerComponent {
   // Back to customers.component
   backToCustomer() {
     this.router.navigate(['/customers']);
+  }
+
+  async addCustomer() {
+    
+    this.customer.profileImage = this.finalImage || '';
+
+    const dbCustomer = {
+      company_name: this.customer.companyName,
+      legal_form: this.customer.legalForm,
+      industry: this.customer.industry,
+      address: this.customer.address,
+      zip: this.customer.zip,
+      city: this.customer.city,
+      country: this.customer.country,
+      phone: this.customer.phone,
+      email: this.customer.email,
+      website: this.customer.website,
+      vat_number: this.customer.vat,
+      image_url: this.customer.profileImage,
+    };
+
+    try {
+      await this.customersService.addCustomer(dbCustomer);
+      alert('Kunde erfolgreich gespeichert ✅');
+
+      this.customer = {
+        companyName: '',
+        legalForm: '',
+        industry: '',
+        address: '',
+        zip: '',
+        city: '',
+        country: '',
+        phone: '',
+        email: '',
+        website: '',
+        vat: '',
+        profileImage: '',
+      };
+      this.finalImage = null;
+    } catch (error) {
+
+      console.error('Fehler beim Speichern:', error);
+      alert('❌ Fehler beim Speichern');
+    }
   }
 }
 
