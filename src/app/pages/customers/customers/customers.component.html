@@ -1,15 +1,15 @@
-<div clas="w-full h-full  ">
+<div class="w-full h-full flex flex-col  ">
     <div class="flex items-center justify-between bg-gray-800 rounded-tl-xl rounded-tr-xl p-2">
         <!-- Left side: Titel -->
         <h2 class="text-3xl font-bold text-cyan-50">Customers</h2>
         <!--Button: Add a new customer -->
-        <button
-            (click)="openAddCustomers()"  class="bg-gray bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400">Add
+        <button (click)="openAddCustomers()"
+            class="bg-gray bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400">Add
             a new customer</button>
         <!-- Right side: Searchfield + Dropdown -->
         <div class="flex space-x-4">
             <!-- Searchfield -->
-            <input type="text" placeholder="Search..."
+            <input type="text" placeholder="Search... " [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()"
                 class="px-3 py-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400" />
             <!-- Dropdown -->
             <select
@@ -17,8 +17,41 @@
                 <option value="">Filter</option>
                 <option value="new">Existing customers</option>
                 <option value="returning">New customers</option>
-                
+
             </select>
+        </div>
+    </div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <!-- Scrollable List Container -->
+    <div class="flex-1 overflow-y-auto p-4 max-h-[82vh]">
+        <!-- Grouped A–Z Customer List -->
+        <div *ngFor="let letter of alphabet">
+            <!-- Display the current alphabet letter as a section header -->
+            <div
+                class="w-7 h-7 flex items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg text-white text-xl font-extrabold transition-transform transform hover:scale-110 cursor-default">
+                {{ letter }}
+            </div>
+            <!-- Only show the list if there are customers under this letter -->
+            <ul *ngIf="groupedCustomers[letter] && groupedCustomers[letter].length > 0" class="space-y-2">
+                <!-- Loop through each customer in the current letter group -->
+                <li *ngFor="let customer of groupedCustomers[letter]"
+                    class="w-full bg-gray-800 border border-cyan-600 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center hover:bg-cyan-700 transition-colors duration-300 cursor-pointer">
+                    <!-- Show customer profile image if available -->
+                    <img *ngIf="customer.image_url" [src]="customer.image_url" alt="Profile Image"
+                        class="w-12 h-12 rounded-full border-2 border-cyan-600 object-cover mb-2 sm:mb-0 sm:mr-4" />
+                    <!-- Container for customer details -->
+                    <div class="flex flex-col sm:flex-row sm:justify-between w-full">
+                        <!-- Customer company name -->
+                        <div class="text-cyan-50 font-semibold text-lg sm:w-1/3">{{ customer.company_name }}</div>
+                        <!-- Customer email -->
+                        <div class="text-cyan-300 mt-1 sm:mt-0 sm:w-1/3">{{ customer.email }}</div>
+                        <!-- Customer phone number -->
+                        <div class="text-cyan-400 font-medium mt-1 sm:mt-0 sm:w-1/3">{{ customer.phone }}</div>
+                        <div class="text-cyan-50">status</div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
