@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Customer } from '../models/customer.class';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,18 +14,22 @@ export class CustomersService {
     this.client = createClient(supabaseUrl, supabaseKey);
   }
 
-  async getCustomers() {
+  async getCustomers(): Promise<Customer[]> {
     const { data, error } = await this.client.from('customers').select('*');
     if (error) throw error;
-    return data;
+    return data as Customer[];
   }
 
 
-  async addCustomer(customer: any) {
-  const { data, error } = await this.client.from('customers').insert([customer]); 
-  if (error) throw error;
-  return data;
-}
+  async addCustomer(customer: Customer): Promise<Customer[]> {
+    const { data, error } = await this.client
+      .from('customers')
+      .insert([customer])
+      .select(); 
+
+    if (error) throw error;
+    return data || [];
+  }
 
 
 

@@ -18,7 +18,7 @@ export class AddCustomerComponent {
   finalImage: string | null = null; // The final cropped image base64 string after user confirms the crop
   customer: Customer = new Customer(); // Initialize a new Customer object to hold the form data for the new customer
 
- 
+
   constructor(private router: Router, private customersService: CustomersService) { }
 
   // Triggered when file input changes
@@ -67,18 +67,23 @@ export class AddCustomerComponent {
 
   async addCustomer() {
     this.customer.profileImage = this.finalImage || '';
-     //console.log('Payload an DB:', this.customer.toDbCustomer());
     try {
-      await this.customersService.addCustomer(this.customer.toDbCustomer());
-      alert('Kunde erfolgreich gespeichert ✅');
-      this.customer = new Customer();
-      this.finalImage = null;
-      this.backToCustomer();
+      const data = await this.customersService.addCustomer(this.customer.toDbCustomer());
+      if (data && data.length > 0) {
+        const newCustomer = data[0];
+        alert('Kunde erfolgreich gespeichert ✅');
+        this.customer = new Customer();
+        this.finalImage = null;
+        this.router.navigate(['/customers'], { queryParams: { scrollToId: newCustomer.id } });
+      } else {
+        alert('❌ Fehler: Keine Kundendaten zurückgegeben.');
+      }
     } catch (error) {
       console.error('Fehler beim Speichern:', error);
       alert('❌ Fehler beim Speichern');
     }
   }
+
 }
 
 

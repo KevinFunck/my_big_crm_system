@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomersService } from 'services/customers.service';
 import { FormsModule } from '@angular/forms';
+import { Customer } from '../../../models/customer.class';
+import { AfterViewInit, QueryList, ViewChildren, ElementRef } from '@angular/core';
+
 
 
 
@@ -12,28 +15,50 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.css'
+
 })
 export class CustomersComponent {
-  customers: any[] = []; // Currently displayed customers
-  allCustomers: any[] = []; // Original full customer list
-  groupedCustomers: { [key: string]: any[] } = {};// Grouped by A–Z
+  customers: Customer[] = []; // Currently displayed customers
+  allCustomers: Customer[] = []; // Original full customer list
+  groupedCustomers: { [key: string]: Customer[] } = {}; // Grouped by A–Z
   error = '';
   searchTerm = ''; // Value from the search input field
+  private scrollToId: string | null = null;
 
   // Alphabet array for A–Z headers
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  constructor(private router: Router, private customersService: CustomersService) { }
+
+
+  constructor(
+    private router: Router,
+    private customersService: CustomersService,
+    private route: ActivatedRoute
+  ) { }
 
   async ngOnInit() {
     try {
       // Load customers from service
-      this.customers = await this.customersService.getCustomers();
+      const rawCustomers = await this.customersService.getCustomers();
+      // Map raw customer objects into Customer class instances
+      this.customers = rawCustomers.map((c: any) => new Customer(c));
       // Fetch the full list of customers from the service asynchronously
       // and store it in the 'allCustomers' array for reference and filtering.
-      this.allCustomers = await this.customersService.getCustomers();
-      // Group them by the first letter of company_name
+      this.allCustomers = [...this.customers];
+      // Group them by the first letter of companyName
       this.groupCustomersByAlphabet(this.customers);
+
+      // Scroll to newly added customer group if "scrollTo" param is set
+      this.route.queryParams.subscribe(params => {
+        const scrollToId = params['scrollToId'];
+        console.log('Query Param scrollToId:', scrollToId);
+        if (scrollToId) {
+          this.scrollToId = scrollToId;
+          setTimeout(() => {
+            this.scrollToCustomer(scrollToId);
+          }, 200);
+        }
+      });
     } catch (err: unknown) {
       if (err instanceof Error) {
         this.error = 'Error loading customers: ' + err.message;
@@ -44,13 +69,22 @@ export class CustomersComponent {
     }
   }
 
+  // ngAfterViewInit(): void {
+  //   console.log('ngAfterViewInit scrollToLetter:', this.scrollToLetter);
+  //   if (this.scrollToLetter) {
+  //     setTimeout(() => {
+  //       this.scrollToCustomer(scrollToId);
+  //     }, 300);
+  //   }
+  // }
+
   openAddCustomers() {
     this.router.navigate(['/customers/add']);
   }
 
-  // Group customers alphabetically by company_name
-  groupCustomersByAlphabet(customers: any[]) {
-    const grouped: { [key: string]: any[] } = {};
+  // Group customers alphabetically by companyName
+  groupCustomersByAlphabet(customers: Customer[]) {
+    const grouped: { [key: string]: Customer[] } = {};
 
     // Initialize empty groups for A-Z
     this.alphabet.forEach(letter => {
@@ -59,7 +93,7 @@ export class CustomersComponent {
 
     // Place each customer in the appropriate group
     customers.forEach(customer => {
-      const firstLetter = customer.company_name?.[0]?.toUpperCase() || '';
+      const firstLetter = customer.companyName?.[0]?.toUpperCase() || '';
       if (grouped[firstLetter]) {
         grouped[firstLetter].push(customer);
       }
@@ -68,9 +102,10 @@ export class CustomersComponent {
     // Sort each group alphabetically by company name
     for (const key in grouped) {
       grouped[key].sort((a, b) =>
-        a.company_name.localeCompare(b.company_name)
+        a.companyName.localeCompare(b.companyName)
       );
     }
+
     this.groupedCustomers = grouped;
   }
 
@@ -79,14 +114,29 @@ export class CustomersComponent {
     const term = this.searchTerm.toLowerCase().trim();
     // Filter the full list of customers (allCustomers) by checking if the company name includes the search term
     const filtered = this.allCustomers.filter(customer =>
-      customer.company_name.toLowerCase().includes(term)
+      customer.companyName.toLowerCase().includes(term)
     );
     // Update the current customers list with the filtered results
     this.customers = filtered;
     // Regroup the filtered customers alphabetically
     this.groupCustomersByAlphabet(this.customers);
   }
+
+  scrollToCustomer(id: string) {
+    setTimeout(() => {
+      const element = document.getElementById(`customer-${id}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.classList.add('animate-glowPop');
+        setTimeout(() => {
+          element.classList.remove('animate-glowPop');
+          
+        }, 4500);
+      }
+    }, 100);
+  }
 }
+
 
 
 

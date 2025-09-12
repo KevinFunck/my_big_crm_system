@@ -28,7 +28,7 @@
         <!-- Grouped A–Z Customer List -->
         <div *ngFor="let letter of alphabet">
             <!-- Display the current alphabet letter as a section header -->
-            <div
+            <div id="group-{{letter}}"
                 class="w-7 h-7 flex items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg text-white text-xl font-extrabold transition-transform transform hover:scale-110 cursor-default">
                 {{ letter }}
             </div>
@@ -36,19 +36,20 @@
             <ul *ngIf="groupedCustomers[letter] && groupedCustomers[letter].length > 0" class="space-y-2">
                 <!-- Loop through each customer in the current letter group -->
                 <li *ngFor="let customer of groupedCustomers[letter]"
-                    class="w-full bg-gray-800 border border-cyan-600 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center hover:bg-cyan-700 transition-colors duration-300 cursor-pointer">
+                    [attr.id]="'customer-' + customer.id"
+                    class="w-full bg-gray-300 border border-cyan-600 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center hover:bg-cyan-700 transition-colors duration-300 cursor-pointer">
                     <!-- Show customer profile image if available -->
-                    <img *ngIf="customer.image_url" [src]="customer.image_url" alt="Profile Image"
+                    <img *ngIf="customer.profileImage" [src]="customer.profileImage" alt="Profile Image"
                         class="w-12 h-12 rounded-full border-2 border-cyan-600 object-cover mb-2 sm:mb-0 sm:mr-4" />
                     <!-- Container for customer details -->
                     <div class="flex flex-col sm:flex-row sm:justify-between w-full">
                         <!-- Customer company name -->
-                        <div class="text-cyan-50 font-semibold text-lg sm:w-1/3">{{ customer.company_name }}</div>
+                        <div class="text-gray-700 font-semibold text-lg sm:w-1/3">{{ customer.companyName }}</div>
                         <!-- Customer email -->
-                        <div class="text-cyan-300 mt-1 sm:mt-0 sm:w-1/3">{{ customer.email }}</div>
+                        <div class="text-gray-700 mt-1 sm:mt-0 sm:w-1/3">{{ customer.email }}</div>
                         <!-- Customer phone number -->
-                        <div class="text-cyan-400 font-medium mt-1 sm:mt-0 sm:w-1/3">{{ customer.phone }}</div>
-                        <div class="text-cyan-50">status</div>
+                        <div class="text-gray-700 font-medium mt-1 sm:mt-0 sm:w-1/3">{{ customer.phone }}</div>
+                        <div class="text-gray-700">status</div>
                     </div>
                 </li>
             </ul>
