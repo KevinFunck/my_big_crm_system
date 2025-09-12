@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { Router } from '@angular/router';
 import { CustomersService } from '../../../services/customers.service';
-import { Customer } from '@models/customer.model';
+import { Customer } from '../../../models/customer.class';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-add-customer',
@@ -13,28 +13,12 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-customer.component.css'
 })
 export class AddCustomerComponent {
-  // Holds the file input change event when a new image is selected
-  imageChangedEvent: any = '';
-  // Stores the base64 string of the cropped image as the user adjusts the cropper
-  croppedImage: string | null = null;
-  // The final cropped image base64 string after user confirms the crop
-  finalImage: string | null = null;
+  imageChangedEvent: any = ''; // Holds the file input change event when a new image is selected
+  croppedImage: string | null = null; // Stores the base64 string of the cropped image as the user adjusts the cropper
+  finalImage: string | null = null; // The final cropped image base64 string after user confirms the crop
+  customer: Customer = new Customer(); // Initialize a new Customer object to hold the form data for the new customer
 
-  customer: Customer = {
-    companyName: '',
-    legalForm: '',
-    industry: '',
-    address: '',
-    zip: '',
-    city: '',
-    country: '',
-    phone: '',
-    email: '',
-    website: '',
-    vat: '',
-    profileImage: '',
-  };
-
+ 
   constructor(private router: Router, private customersService: CustomersService) { }
 
   // Triggered when file input changes
@@ -74,51 +58,23 @@ export class AddCustomerComponent {
     this.imageChangedEvent = '';
     //console.log('finalImage set:', this.finalImage);
   }
+
   // Back to customers.component
   backToCustomer() {
     this.router.navigate(['/customers']);
   }
 
+
   async addCustomer() {
-    
     this.customer.profileImage = this.finalImage || '';
-
-    const dbCustomer = {
-      company_name: this.customer.companyName,
-      legal_form: this.customer.legalForm,
-      industry: this.customer.industry,
-      address: this.customer.address,
-      zip: this.customer.zip,
-      city: this.customer.city,
-      country: this.customer.country,
-      phone: this.customer.phone,
-      email: this.customer.email,
-      website: this.customer.website,
-      vat_number: this.customer.vat,
-      image_url: this.customer.profileImage,
-    };
-
+     //console.log('Payload an DB:', this.customer.toDbCustomer());
     try {
-      await this.customersService.addCustomer(dbCustomer);
+      await this.customersService.addCustomer(this.customer.toDbCustomer());
       alert('Kunde erfolgreich gespeichert ✅');
-
-      this.customer = {
-        companyName: '',
-        legalForm: '',
-        industry: '',
-        address: '',
-        zip: '',
-        city: '',
-        country: '',
-        phone: '',
-        email: '',
-        website: '',
-        vat: '',
-        profileImage: '',
-      };
+      this.customer = new Customer();
       this.finalImage = null;
+      this.backToCustomer();
     } catch (error) {
-
       console.error('Fehler beim Speichern:', error);
       alert('❌ Fehler beim Speichern');
     }

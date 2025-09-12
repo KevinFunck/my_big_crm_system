@@ -48,7 +48,6 @@ export class CustomersComponent {
     this.router.navigate(['/customers/add']);
   }
 
-
   // Group customers alphabetically by company_name
   groupCustomersByAlphabet(customers: any[]) {
     const grouped: { [key: string]: any[] } = {};
@@ -72,7 +71,6 @@ export class CustomersComponent {
         a.company_name.localeCompare(b.company_name)
       );
     }
-
     this.groupedCustomers = grouped;
   }
 
