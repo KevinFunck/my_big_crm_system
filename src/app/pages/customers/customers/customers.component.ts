@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CustomersService } from 'services/customers.service';
 import { FormsModule } from '@angular/forms';
 import { Customer } from '../../../models/customer.class';
-import { AfterViewInit, QueryList, ViewChildren, ElementRef } from '@angular/core';
+
 
 
 
@@ -69,14 +69,6 @@ export class CustomersComponent {
     }
   }
 
-  // ngAfterViewInit(): void {
-  //   console.log('ngAfterViewInit scrollToLetter:', this.scrollToLetter);
-  //   if (this.scrollToLetter) {
-  //     setTimeout(() => {
-  //       this.scrollToCustomer(scrollToId);
-  //     }, 300);
-  //   }
-  // }
 
   openAddCustomers() {
     this.router.navigate(['/customers/add']);
@@ -134,6 +126,10 @@ export class CustomersComponent {
         }, 4500);
       }
     }, 100);
+  }
+
+  openCustomerDetails(customer: Customer) {
+    this.router.navigate(['/customers/details', customer.id]);
   }
 }
 

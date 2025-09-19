@@ -17,6 +17,11 @@ export const routes: Routes = [
       import('./pages/customers/add-customer/add-customer.component').then(m => m.AddCustomerComponent)
   },
   {
+    path: 'customers/details/:id',
+    loadComponent: () =>
+      import('./pages/customers/customer-details/customer-details.component').then(m => m.CustomerDetailsComponent)
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'

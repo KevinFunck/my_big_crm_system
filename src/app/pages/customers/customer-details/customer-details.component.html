@@ -1,0 +1,173 @@
+<div class="flex items-center justify-between bg-gray-800 rounded-tl-xl rounded-tr-xl p-2">
+  <!-- Header with title and action buttons -->
+  <h2 class="text-3xl font-bold text-cyan-50">Customer detail</h2>
+
+  <!-- Action buttons on the right -->
+  <div class="space-x-2">
+    <!-- Edit button (only visible if not in edit mode) -->
+    <button *ngIf="!isEditMode"
+      (click)="toggleEdit()"
+      class="px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700">
+      Edit
+    </button>
+
+    <!-- Save + Cancel buttons (only visible in edit mode) -->
+    <ng-container *ngIf="isEditMode">
+      <button (click)="saveChanges()"
+        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        Save
+      </button>
+      <button (click)="cancelEdit()"
+        class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+        Cancel
+      </button>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Profile picture upload and crop section -->
+<div class="flex flex-col items-center mt-6">
+  <!-- Upload circle -->
+  <label class="relative w-32 h-32 cursor-pointer">
+    <!-- Show cropped image if available -->
+    <img *ngIf="finalImage" [src]="finalImage" alt="Profile"
+      class="w-32 h-32 object-cover rounded-full border-2 border-cyan-600" />
+
+    <!-- Placeholder circle if no image -->
+    <div *ngIf="!finalImage"
+      class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center border-2 border-dashed border-cyan-600 text-gray-500 text-sm">
+      Upload
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file" accept="image/*" (change)="onFileSelected($event)" 
+           class="absolute inset-0 opacity-0" [disabled]="!isEditMode" />
+  </label>
+
+  <!-- Image cropper -->
+  <image-cropper *ngIf="imageChangedEvent" [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true" [aspectRatio]="1" format="png" outputType="base64"
+    (imageCropped)="imageCropped($event)" class="w-64 h-64 mt-6"></image-cropper>
+
+  <!-- Confirm crop button -->
+  <button *ngIf="imageChangedEvent && isEditMode" (click)="confirmCrop()"
+    class="mt-4 px-4 py-2 bg-cyan-600 text-white rounded">
+    Confirm
+  </button>
+
+  <!-- Helper text -->
+  <p *ngIf="isEditMode" class="mt-2 text-sm text-gray-500">
+    Click the circle to upload and crop your profile picture
+  </p>
+</div>
+
+<!-- Customer information fields -->
+<div class="border-cyan-600 border-2 rounded-xl p-3 space-y-4">
+  <div class="flex justify-between">
+    
+    <!-- Left column -->
+    <div>
+      <!-- Company Name -->
+      <div>
+        <label for="companyName" class="block text-sm font-medium text-gray-700">Company Name</label>
+        <input id="companyName" [(ngModel)]="CustomerObj.companyName" type="text" placeholder="Enter company name"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- Legal Form -->
+      <div>
+        <label for="legalForm" class="block text-sm font-medium text-gray-700">Legal Form</label>
+        <input id="legalForm" [(ngModel)]="CustomerObj.legalForm" type="text" placeholder="e.g. GmbH, Ltd, Inc."
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- Industry -->
+      <div>
+        <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
+        <input id="industry" [(ngModel)]="CustomerObj.industry" type="text" placeholder="e.g. Software, Retail"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- Address -->
+      <div>
+        <label for="address" class="block text-sm font-medium text-gray-700">Street Address</label>
+        <input id="address" [(ngModel)]="CustomerObj.address" type="text" placeholder="Street and number"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+    </div>
+
+    <!-- Middle column -->
+    <div>
+      <!-- Postal Code -->
+      <div>
+        <label for="zip" class="block text-sm font-medium text-gray-700">Postal Code</label>
+        <input id="zip" [(ngModel)]="CustomerObj.zip" type="text" placeholder="Postal code"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- City -->
+      <div>
+        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+        <input id="city" [(ngModel)]="CustomerObj.city" type="text" placeholder="City"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- Country -->
+      <div>
+        <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+        <input id="country" [(ngModel)]="CustomerObj.country" type="text" placeholder="Country"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+        <input id="phone" [(ngModel)]="CustomerObj.phone" type="tel" placeholder="e.g. +1 234 567 8900"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div>
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input id="email" [(ngModel)]="CustomerObj.email" type="email" placeholder="info@example.com"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- Website -->
+      <div>
+        <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+        <input id="website" [(ngModel)]="CustomerObj.website" type="url" placeholder="https://www.example.com"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- VAT -->
+      <div>
+        <label for="vat" class="block text-sm font-medium text-gray-700">VAT Number</label>
+        <input id="vat" [(ngModel)]="CustomerObj.vat" type="text" placeholder="e.g. DE123456789"
+          class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
+          [readonly]="!isEditMode" />
+      </div>
+
+      <!-- Customer status -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Customer Status</label>
+        <span class="inline-block px-3 py-2 rounded-md bg-blue-100 text-cyan-600 font-medium mt-1">
+          New Customer
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

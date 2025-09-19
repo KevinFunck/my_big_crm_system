@@ -37,6 +37,7 @@
                 <!-- Loop through each customer in the current letter group -->
                 <li *ngFor="let customer of groupedCustomers[letter]"
                     [attr.id]="'customer-' + customer.id"
+                    (click)="openCustomerDetails(customer)"
                     class="w-full bg-gray-300 border border-cyan-600 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center hover:bg-cyan-700 transition-colors duration-300 cursor-pointer">
                     <!-- Show customer profile image if available -->
                     <img *ngIf="customer.profileImage" [src]="customer.profileImage" alt="Profile Image"
