@@ -115,10 +115,11 @@
 
             <!-- Customer status -->
             <div>
-                <label for="vat" class="block text-sm font-medium text-gray-700">Customer Status</label>
-                <span class="inline-block px-3 py-2 rounded-md bg-blue-100 text-cyan-600 font-medium mt-1">
-                    New Customer
-                </span>
+                <label for="status" class="block text-sm font-medium text-gray-700">
+                    Customer Status
+                </label>
+                <input [(ngModel)]="customer.status" name="status" id="status" type="text" readonly
+                    class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1 bg-gray-100 cursor-not-allowed" />
             </div>
         </div>
     </div>

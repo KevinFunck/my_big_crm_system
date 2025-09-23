@@ -12,6 +12,8 @@ export class Customer {
   website: string = '';
   vat: string = '';
   profileImage: string = '';
+  status: string = '';
+
 
   constructor(obj?: any) {
     if (obj) {
@@ -28,11 +30,13 @@ export class Customer {
       this.website = obj.website || '';
       this.vat = obj.vat_number || '';
       this.profileImage = obj.image_url || '';
+      this.status = obj.status || '';
     }
   }
 
   toDbCustomer(): any {
     return {
+      id: this.id,
       company_name: this.companyName,
       legal_form: this.legalForm,
       industry: this.industry,
@@ -45,6 +49,7 @@ export class Customer {
       website: this.website,
       vat_number: this.vat,
       image_url: this.profileImage,
+      status: this.status
     };
   }
 }

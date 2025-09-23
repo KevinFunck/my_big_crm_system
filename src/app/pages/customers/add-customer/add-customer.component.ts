@@ -17,9 +17,15 @@ export class AddCustomerComponent {
   croppedImage: string | null = null; // Stores the base64 string of the cropped image as the user adjusts the cropper
   finalImage: string | null = null; // The final cropped image base64 string after user confirms the crop
   customer: Customer = new Customer(); // Initialize a new Customer object to hold the form data for the new customer
-
+ 
 
   constructor(private router: Router, private customersService: CustomersService) { }
+
+  ngOnInit() {
+    // When the component initializes, set the default status of the new customer
+   // to "New customer" so that it appears in the form input automatically.
+    this.customer.status = 'New customer';
+  }
 
   // Triggered when file input changes
   onFileSelected(event: any): void {
