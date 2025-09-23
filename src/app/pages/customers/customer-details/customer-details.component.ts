@@ -5,11 +5,13 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
 import { ActivatedRoute } from '@angular/router';
 import { CustomersService } from 'services/customers.service';
 import { Customer } from '@models/customer.class';
+import { ContactPersonComponent } from "../contact-person/contact-person.component";
+
 
 @Component({
   selector: 'app-customer-details',
   standalone: true,
-  imports: [FormsModule, CommonModule, ImageCropperComponent],
+  imports: [FormsModule, CommonModule, ImageCropperComponent, ContactPersonComponent],
   templateUrl: './customer-details.component.html',
   styleUrl: './customer-details.component.css'
 })
