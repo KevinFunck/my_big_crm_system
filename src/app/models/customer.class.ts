@@ -36,7 +36,6 @@ export class Customer {
 
   toDbCustomer(): any {
     return {
-      id: this.id,
       company_name: this.companyName,
       legal_form: this.legalForm,
       industry: this.industry,

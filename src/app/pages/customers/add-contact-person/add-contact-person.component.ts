@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-contact-person',
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './add-contact-person.component.css'
 })
 export class AddContactPersonComponent {
+
+  constructor(private router:Router) {}
+
+  
+
+  backToContactPersons() {
+      this.router.navigate(['/customers/details/']);
+  }
 
 }
