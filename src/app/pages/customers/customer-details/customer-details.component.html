@@ -164,4 +164,4 @@
     </div>
   </div>
 </div>
-<app-contact-person></app-contact-person>
+<app-contact-person *ngIf="customer" [customerId]="customer.id"></app-contact-person>

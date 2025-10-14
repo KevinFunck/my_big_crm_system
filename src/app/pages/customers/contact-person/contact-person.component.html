@@ -13,3 +13,31 @@
 
     </div>
 </div>
+
+<div *ngIf="loading">Lade Kontaktpersonen...</div>
+
+<ul *ngIf="!loading && contactPersons.length > 0; else noContacts">
+  <li *ngFor="let c of contactPersons" class="py-2 border border-cyan-600 rounded-xl mt-2">
+    <!-- Name -->
+    <span >{{ c.contactName }}</span>
+
+    <!-- Employment Type -->
+    <span *ngIf="c.employmentType" class=" text-gray-900" >
+       {{ c.employmentType }}
+    </span>
+
+    <!-- Email -->
+    <span *ngIf="c.email" class="ml-2  text-gray-900">
+      {{ c.email }}
+    </span>
+
+    <!-- Phone -->
+    <span *ngIf="c.phone" class="ml-2  text-gray-900">
+      {{ c.phone }}
+    </span>
+  </li>
+</ul>
+
+<ng-template #noContacts>
+  <p>Keine Kontaktpersonen vorhanden.</p>
+</ng-template>

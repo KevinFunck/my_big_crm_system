@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ImageCropperComponent } from 'ngx-image-cropper';
@@ -23,7 +23,7 @@ export class CustomerDetailsComponent {
   customer: Customer | null = null; // Holds the original customer data (read-only)
   CustomerObj: Customer = new Customer({}); // Holds the editable customer object for the form
   statusOptions = ['New customer', 'Existing customer']; // Options for the customer's status dropdown
-
+  @Input() customerId!: string;
 
   constructor(
     private route: ActivatedRoute,

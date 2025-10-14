@@ -1,5 +1,5 @@
 export class Customer {
-  id?: string;
+  id: string = '';
   companyName: string = '';
   legalForm: string = '';
   industry: string = '';
@@ -17,7 +17,7 @@ export class Customer {
 
   constructor(obj?: any) {
     if (obj) {
-      this.id = obj.id;
+      this.id = obj.id || '';
       this.companyName = obj.company_name || '';
       this.legalForm = obj.legal_form || '';
       this.industry = obj.industry || '';
@@ -34,8 +34,10 @@ export class Customer {
     }
   }
 
+  
   toDbCustomer(): any {
     return {
+    
       company_name: this.companyName,
       legal_form: this.legalForm,
       industry: this.industry,
