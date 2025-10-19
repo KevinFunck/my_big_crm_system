@@ -17,26 +17,92 @@
 <div *ngIf="loading">Lade Kontaktpersonen...</div>
 
 <ul *ngIf="!loading && contactPersons.length > 0; else noContacts">
-  <li *ngFor="let c of contactPersons" class="py-2 border border-cyan-600 rounded-xl mt-2">
-    <!-- Name -->
-    <span >{{ c.contactName }}</span>
+  <li
+    *ngFor="let c of contactPersons"
+    class="py-3 px-4 border border-cyan-600 rounded-xl mt-2 bg-gray-100 flex justify-between items-start"
+  >
+    <div class="flex flex-col space-y-1">
+      <!-- Name -->
+      <div>
+        <label class="font-semibold">Name:</label>
+        <span *ngIf="editingContactId !== c.id">{{ c.contactName }}</span>
+        <input
+          *ngIf="editingContactId === c.id"
+          [(ngModel)]="editCache.contactName"
+          class="border border-gray-400 rounded px-2 py-1 ml-2"
+        />
+      </div>
 
-    <!-- Employment Type -->
-    <span *ngIf="c.employmentType" class=" text-gray-900" >
-       {{ c.employmentType }}
-    </span>
+      <!-- Employment Type -->
+      <div>
+        <label class="font-semibold">Type:</label>
+        <span *ngIf="editingContactId !== c.id">{{ c.employmentType }}</span>
+        <input
+          *ngIf="editingContactId === c.id"
+          [(ngModel)]="editCache.employmentType"
+          class="border border-gray-400 rounded px-2 py-1 ml-2"
+        />
+      </div>
 
-    <!-- Email -->
-    <span *ngIf="c.email" class="ml-2  text-gray-900">
-      {{ c.email }}
-    </span>
+      <!-- Email -->
+      <div>
+        <label class="font-semibold">Email:</label>
+        <span *ngIf="editingContactId !== c.id">{{ c.email }}</span>
+        <input
+          *ngIf="editingContactId === c.id"
+          [(ngModel)]="editCache.email"
+          class="border border-gray-400 rounded px-2 py-1 ml-2"
+        />
+      </div>
 
-    <!-- Phone -->
-    <span *ngIf="c.phone" class="ml-2  text-gray-900">
-      {{ c.phone }}
-    </span>
+      <!-- Phone -->
+      <div>
+        <label class="font-semibold">Phone:</label>
+        <span *ngIf="editingContactId !== c.id">{{ c.phone }}</span>
+        <input
+          *ngIf="editingContactId === c.id"
+          [(ngModel)]="editCache.phone"
+          class="border border-gray-400 rounded px-2 py-1 ml-2"
+        />
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex flex-col space-y-2 ml-4">
+      <!-- Edit -->
+      <button
+        *ngIf="editingContactId !== c.id"
+        (click)="startEditing(c)"
+        class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500"
+      >
+        Edit
+      </button>
+
+      <!-- Save / Cancel / Delete -->
+      <div *ngIf="editingContactId === c.id" class="flex flex-col space-y-2">
+        <button
+          (click)="saveEdit(c)"
+          class="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-500"
+        >
+          Save
+        </button>
+        <button
+          (click)="cancelEdit()"
+          class="bg-gray-400 text-white px-3 py-1 rounded-md hover:bg-gray-500"
+        >
+          Cancel
+        </button>
+        <button
+          (click)="deleteContactPerson(c)"
+          class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
   </li>
 </ul>
+
 
 <ng-template #noContacts>
   <p>Keine Kontaktpersonen vorhanden.</p>
