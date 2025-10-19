@@ -30,8 +30,12 @@ export class CustomerDetailsComponent {
     private customersService: CustomersService
   ) { }
 
+  /**
+   * Lifecycle hook: runs on component initialization
+   * Fetches customer data by ID and initializes editable object
+   */
   async ngOnInit() {
-     // Get the customer ID from the route
+    // Get the customer ID from the route
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       try {
@@ -40,7 +44,7 @@ export class CustomerDetailsComponent {
         // Store original data and create editable object
         this.customer = new Customer(rawCustomer);
         this.CustomerObj = new Customer(rawCustomer);
-          // If there is an existing profile image, display it
+        // If there is an existing profile image, display it
         if (this.CustomerObj.profileImage) {
           this.finalImage = this.CustomerObj.profileImage;
         }
@@ -50,21 +54,27 @@ export class CustomerDetailsComponent {
     }
   }
 
-
-  // Triggered when file input changes
+  /**
+ * Triggered when the user selects a new image file
+ */
   onFileSelected(event: any): void {
     this.imageChangedEvent = event;
     //console.log('File selected event:', event);
   }
 
-  // Confirm cropped image and reset cropper
+  /**
+ * Triggered when cropping is done
+ * Sets finalImage to the cropped result
+ */
   confirmCrop() {
     this.finalImage = this.croppedImage;
-    this.imageChangedEvent = '';
+    this.imageChangedEvent = ''; // Reset cropper input
     //console.log('finalImage set:', this.finalImage);
   }
 
-  // Helper to convert Blob to base64 string
+  /**
+ * Helper function to convert Blob to Base64 string
+ */
   private blobToBase64(blob: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -74,7 +84,10 @@ export class CustomerDetailsComponent {
     });
   }
 
-  // Triggered when cropping is done
+  /**
+ * Triggered when the cropper emits a cropped image event
+ * Supports both base64 and Blob outputs
+ */
   async imageCropped(event: any) {
     //console.log('Full cropped event:', event);
 
@@ -89,14 +102,24 @@ export class CustomerDetailsComponent {
     //console.log('croppedImage:', this.croppedImage);
   }
 
+  /**
+ * Switch to edit mode
+ */
   toggleEdit() {
     this.isEditMode = true;
   }
 
+  /**
+ * Cancel editing and revert changes
+ */
   cancelEdit() {
     this.isEditMode = false;
   }
 
+  /**
+ * Save changes to the customer
+ * Supports both creating a new customer (if no ID) and updating existing
+ */
   async saveChanges() {
     // If there is no customer object, do nothing
     if (!this.CustomerObj) return;

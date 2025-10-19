@@ -21,13 +21,12 @@ export class CustomersComponent {
   customers: Customer[] = []; // Currently displayed customers
   allCustomers: Customer[] = []; // Original full customer list
   groupedCustomers: { [key: string]: Customer[] } = {}; // Grouped by A–Z
-  error = '';
+  error = ''; // Holds error messages during data loading
   searchTerm = ''; // Value from the search input field
-  private scrollToId: string | null = null;
+  private scrollToId: string | null = null; // Used for scrolling to a specific customer after adding
 
   // Alphabet array for A–Z headers
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
 
 
   constructor(
@@ -36,6 +35,9 @@ export class CustomersComponent {
     private route: ActivatedRoute
   ) { }
 
+  /**
+ * Lifecycle hook: load customers on component init
+ */
   async ngOnInit() {
     try {
       // Load customers from service
@@ -69,12 +71,16 @@ export class CustomersComponent {
     }
   }
 
-
+  /**
+   * Navigate to the add-customer page
+   */
   openAddCustomers() {
     this.router.navigate(['/customers/add']);
   }
 
-  // Group customers alphabetically by companyName
+  /**
+ * Group a list of customers alphabetically by the first letter of companyName
+ */
   groupCustomersByAlphabet(customers: Customer[]) {
     const grouped: { [key: string]: Customer[] } = {};
 
@@ -83,7 +89,7 @@ export class CustomersComponent {
       grouped[letter] = [];
     });
 
-    // Place each customer in the appropriate group
+    // Assign each customer to the corresponding letter group
     customers.forEach(customer => {
       const firstLetter = customer.companyName?.[0]?.toUpperCase() || '';
       if (grouped[firstLetter]) {
@@ -101,6 +107,10 @@ export class CustomersComponent {
     this.groupedCustomers = grouped;
   }
 
+  /**
+ * Called whenever the search input changes
+ * Filters the customers list and re-groups them alphabetically
+ */
   onSearchChange() {
     // Convert the search input to lowercase and remove extra spaces
     const term = this.searchTerm.toLowerCase().trim();
@@ -114,6 +124,9 @@ export class CustomersComponent {
     this.groupCustomersByAlphabet(this.customers);
   }
 
+  /**
+ * Scrolls smoothly to a specific customer element and highlights it temporarily
+ */
   scrollToCustomer(id: string) {
     setTimeout(() => {
       const element = document.getElementById(`customer-${id}`);
@@ -122,12 +135,15 @@ export class CustomersComponent {
         element.classList.add('animate-glowPop');
         setTimeout(() => {
           element.classList.remove('animate-glowPop');
-          
+
         }, 4500);
       }
     }, 100);
   }
 
+  /**
+ * Navigate to customer details page for the selected customer
+ */
   openCustomerDetails(customer: Customer) {
     this.router.navigate(['/customers/details', customer.id]);
   }

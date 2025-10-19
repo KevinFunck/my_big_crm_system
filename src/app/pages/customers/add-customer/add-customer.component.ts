@@ -17,13 +17,13 @@ export class AddCustomerComponent {
   croppedImage: string | null = null; // Stores the base64 string of the cropped image as the user adjusts the cropper
   finalImage: string | null = null; // The final cropped image base64 string after user confirms the crop
   customer: Customer = new Customer(); // Initialize a new Customer object to hold the form data for the new customer
- 
+
 
   constructor(private router: Router, private customersService: CustomersService) { }
 
   ngOnInit() {
     // When the component initializes, set the default status of the new customer
-   // to "New customer" so that it appears in the form input automatically.
+    // to "New customer" so that it appears in the form input automatically.
     this.customer.status = 'New customer';
   }
 
@@ -33,7 +33,9 @@ export class AddCustomerComponent {
     //console.log('File selected event:', event);
   }
 
-  // Helper to convert Blob to base64 string
+  /**
+ * Helper function: converts a Blob to a base64 string
+ */
   private blobToBase64(blob: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -43,7 +45,10 @@ export class AddCustomerComponent {
     });
   }
 
-  // Triggered when cropping is done
+  /**
+ * Triggered when the cropper emits a cropped image event
+ * Supports both base64 and Blob outputs from the cropper
+ */
   async imageCropped(event: any) {
     //console.log('Full cropped event:', event);
 
@@ -58,28 +63,39 @@ export class AddCustomerComponent {
     //console.log('croppedImage:', this.croppedImage);
   }
 
-  // Confirm cropped image and reset cropper
+  /**
+ * Confirms the cropped image and resets the cropper
+ * Final image is stored in `finalImage` for submission
+ */
   confirmCrop() {
     this.finalImage = this.croppedImage;
     this.imageChangedEvent = '';
     //console.log('finalImage set:', this.finalImage);
   }
 
-  // Back to customers.component
+  /**
+  * Navigate back to the customer list
+  */
   backToCustomer() {
     this.router.navigate(['/customers']);
   }
 
-
+  /**
+   * Adds a new customer using the service
+   * Includes the final cropped profile image
+   * After success, navigates back to customers list and scrolls to the new customer
+   */
   async addCustomer() {
     this.customer.profileImage = this.finalImage || '';
     try {
       const data = await this.customersService.addCustomer(this.customer.toDbCustomer());
       if (data && data.length > 0) {
         const newCustomer = data[0];
-        alert('Kunde erfolgreich gespeichert ✅');
+        alert('Kunde erfolgreich gespeichert ');
+        // Reset form for next customer
         this.customer = new Customer();
         this.finalImage = null;
+        // Navigate back to the customer list with optional scroll to new customer
         this.router.navigate(['/customers'], { queryParams: { scrollToId: newCustomer.id } });
       } else {
         alert('❌ Fehler: Keine Kundendaten zurückgegeben.');
