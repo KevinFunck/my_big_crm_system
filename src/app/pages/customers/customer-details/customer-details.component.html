@@ -1,4 +1,26 @@
-<div class="flex items-center justify-between bg-gray-800 rounded-tl-xl rounded-tr-xl p-2">
+<!-- Tabs at the top -->
+<button class="px-4 py-2 rounded-t-xl  bg-gray-800"
+  [ngClass]="activeTab === 'details' ? 'bg-cyan-600 text-white' : 'text-gray-300 hover:bg-gray-600'"
+  (click)="activeTab = 'details'">
+  Details
+</button>
+
+<button
+  class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
+  [ngClass]="{ 'bg-cyan-600 text-white': isActive }"
+  (click)="goToContacts()"
+>
+  Contact Persons
+</button>
+
+<button class="px-4 py-2 rounded-t-xl  bg-gray-800"
+  [ngClass]="activeTab === 'orders' ? 'bg-cyan-600 text-white' : 'text-gray-300 hover:bg-gray-600'"
+  (click)="activeTab = 'orders'">
+  Orders
+</button>
+
+<div class="flex items-center justify-between bg-gray-800  rounded-tr-xl p-2">
+
   <!-- Header with title and action buttons -->
   <h2 class="text-3xl font-bold text-cyan-50">Customer detail</h2>
 
@@ -164,4 +186,8 @@
     </div>
   </div>
 </div>
-<app-contact-person *ngIf="customer" [customerId]="customer.id"></app-contact-person>
+<!-- 🟡 TAB: CONTACT PERSONS -->
+<div *ngIf="activeTab === 'contacts'">
+  <app-contact-person *ngIf="customer" [customerId]="customer.id"></app-contact-person>
+</div>
+<app-orders></app-orders>

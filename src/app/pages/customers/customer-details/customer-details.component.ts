@@ -6,12 +6,15 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomersService } from 'services/customers.service';
 import { Customer } from '@models/customer.class';
 import { ContactPersonComponent } from "../contact-person/contact-person.component";
+import { OrdersComponent } from "../orders/orders.component";
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-customer-details',
   standalone: true,
-  imports: [FormsModule, CommonModule, ImageCropperComponent, ContactPersonComponent],
+  imports: [FormsModule, CommonModule, ImageCropperComponent, ContactPersonComponent, OrdersComponent, RouterModule],
   templateUrl: './customer-details.component.html',
   styleUrl: './customer-details.component.css'
 })
@@ -23,11 +26,14 @@ export class CustomerDetailsComponent {
   customer: Customer | null = null; // Holds the original customer data (read-only)
   CustomerObj: Customer = new Customer({}); // Holds the editable customer object for the form
   statusOptions = ['New customer', 'Existing customer']; // Options for the customer's status dropdown
+  activeTab: string = 'details';
+  isActive: boolean = false;
   @Input() customerId!: string;
 
   constructor(
     private route: ActivatedRoute,
-    private customersService: CustomersService
+    private customersService: CustomersService,
+    private router: Router
   ) { }
 
   /**
@@ -51,6 +57,13 @@ export class CustomerDetailsComponent {
       } catch (err) {
         console.error('Fehler beim Laden des Kunden:', err);
       }
+    }
+  }
+
+  
+  goToContacts() {
+    if (this.customer?.id) {
+      this.router.navigate(['/customers', this.customer.id, 'contacts']);
     }
   }
 

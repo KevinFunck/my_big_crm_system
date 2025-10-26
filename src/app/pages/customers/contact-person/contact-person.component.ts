@@ -19,6 +19,7 @@ export class ContactPersonComponent {
   loading = false; // Flag to indicate loading state
   editingContactId: string | null = null; // Tracks which contact is currently being edited
   editCache: any = {}; // Temporary object to store editable fields during inline editing
+  activeTab: 'details' | 'contacts' | 'orders' = 'contacts';
 
   constructor(
     private router: Router,
@@ -27,23 +28,26 @@ export class ContactPersonComponent {
     private contactPersonsService: ContactPersonsService
   ) { }
 
-  /**
- * Lifecycle hook: Called once after component initialization
- * Loads contact persons for the given customer
- */
+
   async ngOnInit() {
-    if (!this.customerId) return; // Exit if no customerId is provided
+    // ✅ Customer-ID direkt aus der URL holen (z. B. /customers/123/contacts)
+    this.customerId = this.route.snapshot.paramMap.get('id')!;
+    console.log('Customer-ID aus Route:', this.customerId);
+
+    if (!this.customerId) {
+      console.error('❌ Keine Customer-ID gefunden!');
+      return;
+    }
 
     this.loading = true;
     try {
-      // Fetch contact persons from the service
-      this.contactPersons =
-        await this.contactPersonsService.getContactPersonsByCustomerId(this.customerId);
+      // ✅ Kontakte für diesen Customer laden
+      this.contactPersons = await this.contactPersonsService.getContactPersonsByCustomerId(this.customerId);
       console.log('Geladene Kontakte:', this.contactPersons);
     } catch (err) {
       console.error('Fehler beim Laden der Kontakte:', err);
     } finally {
-      this.loading = false; // Stop loading indicator
+      this.loading = false;
     }
   }
 
@@ -106,9 +110,25 @@ export class ContactPersonComponent {
       console.error('Customer-ID fehlt!');
       return;
     }
-
-    this.router.navigate(['/contact/add'], {
-      queryParams: { customerId: this.customerId }
-    });
+    // ✅ Richtige Route: customers/:id/contacts/add
+    this.router.navigate([`/customers/${this.customerId}/contacts/add`]);
   }
+
+  goToDetails() {
+  if (this.customerId) {
+    this.router.navigate([`/customers/details/${this.customerId}`]);
+  }
+}
+
+goToContacts() {
+  if (this.customerId) {
+    this.router.navigate([`/customers/${this.customerId}/contacts`]);
+  }
+}
+
+goToOrders() {
+  if (this.customerId) {
+    this.router.navigate([`/customers/${this.customerId}/orders`]); 
+  }
+}
 }

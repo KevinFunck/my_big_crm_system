@@ -1,4 +1,29 @@
-<div class="flex items-center justify-between bg-gray-800 rounded-xl rounded-tr-xl p-2 mt-2">
+<!-- Tabs at the top -->
+<button
+  class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
+  [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'details' }"
+  (click)="goToDetails()"
+>
+  Details
+</button>
+
+<button
+  class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
+  [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'contacts' }"
+  (click)="goToContacts()"
+>
+  Contact Persons
+</button>
+
+<button
+  class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
+  [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'orders' }"
+  (click)="goToOrders()"
+>
+  orders
+</button>  
+
+<div class="flex items-center justify-between bg-gray-800  rounded-tr-xl p-2 ">
     <!-- Left side: Titel -->
     <h2 class="text-3xl font-bold text-cyan-50">Contact persons</h2>
     <!--Button: Add a new customer -->

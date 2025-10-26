@@ -21,7 +21,7 @@ export class AddContactPersonComponent {
    * Navigate back to the contact persons list page
    */
   backToContactPersons() {
-    this.router.navigate(['/contact/persons']);
+     this.router.navigate([`/customers/${this.contactPerson.customer_id}/contacts`]);
   }
 
   /**
@@ -29,10 +29,13 @@ export class AddContactPersonComponent {
    * Reads customerId from query parameters and assigns it to the new contact person
    */
   ngOnInit() {
-    // Customer-ID aus QueryParams übernehmen
-    const customerId = this.route.snapshot.queryParamMap.get('customerId');
+    // Customer-ID direkt aus der URL holen
+    const customerId = this.route.snapshot.paramMap.get('id');
     if (customerId) {
-      this.contactPerson.customer_id = customerId; // Important: associates new contact with customer
+      this.contactPerson.customer_id = customerId;
+      console.log('Customer-ID für neuen Kontakt:', customerId);
+    } else {
+      console.error('❌ Keine Customer-ID gefunden!');
     }
   }
 
@@ -47,7 +50,7 @@ export class AddContactPersonComponent {
         this.contactPerson.toDbContactPerson?.() || this.contactPerson
       );
       // Navigate to the customer details page after adding
-      this.router.navigate(['/customer/details', this.contactPerson.customer_id]);
+      this.router.navigate([`/customers/${this.contactPerson.customer_id}/contacts`]);
     } catch (error) {
       console.error('Fehler beim Speichern der Kontaktperson:', error);
     }
