@@ -39,6 +39,17 @@ export const routes: Routes = [
         .then(m => m.AddContactPersonComponent)
   },
   {
+    path: 'customers/:id/orders',
+    loadComponent: () =>
+      import('./pages/customers/orders/orders.component').then(m => m.OrdersComponent)
+  },
+  {
+    path: 'customers/:id/orders/add',
+    loadComponent: () =>
+      import('./pages/customers/add-order/add-order.component')
+        .then(m => m.AddOrderComponent)
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'

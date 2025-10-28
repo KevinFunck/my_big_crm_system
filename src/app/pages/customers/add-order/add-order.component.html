@@ -1,0 +1,99 @@
+<div class="flex items-center justify-center bg-gray-800 rounded-tl-xl rounded-tr-xl p-2 mb-3">
+    <h2 class="text-3xl font-bold text-cyan-50">Add a new order</h2>
+</div>
+
+<div class="border-cyan-600 border-2 rounded-xl p-3 space-y-4" [ngClass]="{
+    'bg-green-100': selectedtStaus === 'Low',
+    'bg-blue-100':selectedtStaus == 'Normal',
+    'bg-orange-100': selectedtStaus == 'High',
+    'bg-red-100': selectedtStaus == 'Urgent'
+    
+    }">
+    <!-- Erste Zeile -->
+    <div class="flex justify-between flex-wrap gap-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Order number</label>
+            <input id="orderNumber" type="text" placeholder="Enter order number"
+                class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Order date</label>
+            <input id="orderDate" type="date" class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Delivery date</label>
+            <input id="deliveryDate" type="date" class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Status</label>
+            <select id="orderStatus" [(ngModel)]="selectedtStaus" [ngClass]="{
+      'border-2 rounded-md w-64 h-10 px-3 mt-1 transition-all duration-300': true,
+      'border-green-600 bg-green-100': selectedtStaus === 'Low',
+      'border-blue-600 bg-blue-100': selectedtStaus === 'Normal',
+      'border-orange-600 bg-orange-100': selectedtStaus === 'High',
+      'border-red-600 bg-red-100': selectedtStaus === 'Urgent',
+      'border-cyan-600 bg-white': selectedtStaus === ''}">
+                <option value="">Select status</option>
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Zweite Zeile -->
+    <div class="flex justify-between flex-wrap gap-4">
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Priority</label>
+            <select id="priority" [(ngModel)]="selectedPriority" [ngClass]="{
+      'border-2 rounded-md w-64 h-10 px-3 mt-1 transition-all duration-300': true,
+      'border-green-600 bg-green-100': selectedPriority === 'Low',
+      'border-blue-600 bg-blue-100': selectedPriority === 'Normal',
+      'border-orange-600 bg-orange-100': selectedPriority === 'High',
+      'border-red-600 bg-red-100': selectedPriority === 'Urgent',
+      'border-cyan-600 bg-white': selectedPriority === ''
+    }">
+                <option value="">Select status</option>
+                <option class="text-green-700" value="Low">Low</option>
+                <option class="text-blue-700" value="Normal">Normal</option>
+                <option class="text-orange-700" value="High">High</option>
+                <option class="text-red-700" value="Urgent">Urgent</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Total amount (€)</label>
+            <input id="orderAmount" type="number" min="0" step="0.01" placeholder="Enter total amount"
+                class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Assigned employee</label>
+            <input id="assignedTo" type="text" placeholder="Enter employee name"
+                class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" />
+        </div>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea id="orderDescription" placeholder="Enter order description"
+            class="border-cyan-600 border-2 rounded-md w-[26rem] h-24 px-3 mt-1 resize-none"></textarea>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-center pt-4">
+        <button
+            class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out">
+            Back
+        </button>
+        <button
+            class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out ml-3">
+            Add
+        </button>
+    </div>
+</div>

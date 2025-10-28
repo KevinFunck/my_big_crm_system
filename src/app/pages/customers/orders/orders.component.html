@@ -1,1 +1,31 @@
-<p>orders works!</p>
+<!-- Tabs at the top -->
+<button class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
+    [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'details' }" >
+    Details
+</button>
+
+<button class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
+    [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'contacts' }">
+    Contact Persons
+</button>
+
+<button class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
+    [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'orders' }">
+    Orders
+</button>
+
+<div class="flex items-center justify-between bg-gray-800  rounded-tr-xl p-2 ">
+    <!-- Left side: Titel -->
+    <h2 class="text-3xl font-bold text-cyan-50">Orders</h2>
+    <!--Button: Add a new customer -->
+    <button (click)="goToAddOrder()"
+        class="bg-gray bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400">Add
+        a new order</button>
+    <!-- Right side: Searchfield + Dropdown -->
+    <div class="flex space-x-4">
+        <!-- Searchfield -->
+        <input type="text" placeholder="Search... "
+            class="px-3 py-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+
+    </div>
+</div>

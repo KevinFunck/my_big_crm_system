@@ -115,20 +115,21 @@ export class ContactPersonComponent {
   }
 
   goToDetails() {
-  if (this.customerId) {
-    this.router.navigate([`/customers/details/${this.customerId}`]);
+    if (this.customerId) {
+      this.router.navigate([`/customers/details/${this.customerId}`]);
+    }
   }
-}
 
-goToContacts() {
-  if (this.customerId) {
-    this.router.navigate([`/customers/${this.customerId}/contacts`]);
+  goToContacts() {
+    if (this.customerId) {
+      this.router.navigate([`/customers/${this.customerId}/contacts`]);
+    }
   }
-}
 
-goToOrders() {
-  if (this.customerId) {
-    this.router.navigate([`/customers/${this.customerId}/orders`]); 
+  goToOrders() {
+    if (this.customerId) {
+      this.router.navigate([`/customers/${this.customerId}/orders`]);
+    }
   }
-}
+
 }
