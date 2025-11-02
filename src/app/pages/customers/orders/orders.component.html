@@ -1,60 +1,224 @@
 <!-- Tabs at the top -->
 <button class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
-    [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'details' }">
-    Details
+  [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'details' }">
+  Details
 </button>
 
 <button class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
-    [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'contacts' }">
-    Contact Persons
+  [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'contacts' }">
+  Contact Persons
 </button>
 
 <button class="px-4 py-2 rounded-t-xl bg-gray-800 text-gray-300 hover:bg-gray-600"
-    [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'orders' }">
-    Orders
+  [ngClass]="{ 'bg-cyan-600 text-white': activeTab === 'orders' }">
+  Orders
 </button>
 
 <div class="flex items-center justify-between bg-gray-800  rounded-tr-xl p-2 ">
-    <!-- Left side: Titel -->
-    <h2 class="text-3xl font-bold text-cyan-50">Orders</h2>
-    <!--Button: Add a new customer -->
-    <button (click)="goToAddOrder()"
-        class="bg-gray bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400">Add
-        a new order</button>
-    <!-- Right side: Searchfield + Dropdown -->
-    <div class="flex space-x-4">
-        <!-- Searchfield -->
-        <input type="text" placeholder="Search... "
-            class="px-3 py-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+  <!-- Left side: Titel -->
+  <h2 class="text-3xl font-bold text-cyan-50">Orders</h2>
 
-    </div>
+  <div class="flex space-x-2 mb-4">
+    <button class="bg-green-700 text-white px-2 py-1 rounded" [class.opacity-70]="activeOrderTab !== 'pending'"
+      (click)="setActiveOrderTab('pending')">
+      Pending
+    </button>
+
+    <button class="bg-blue-700 text-white px-2 py-1 rounded" [class.opacity-70]="activeOrderTab !== 'inprogress'"
+      (click)="setActiveOrderTab('inprogress')">
+      In Progress
+    </button>
+
+    <button class="bg-orange-700 text-white px-2 py-1 rounded" [class.opacity-70]="activeOrderTab !== 'completed'"
+      (click)="setActiveOrderTab('completed')">
+      Completed
+    </button>
+
+    <button class="bg-red-700 text-white px-2 py-1 rounded" [class.opacity-70]="activeOrderTab !== 'cancelled'"
+      (click)="setActiveOrderTab('cancelled')">
+      Cancelled
+    </button>
+  </div>
+
+  <!--Button: Add a new customer -->
+  <button (click)="goToAddOrder()"
+    class="bg-gray bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400">Add
+    a new order</button>
+  <!-- Right side: Searchfield + Dropdown -->
+  <div class="flex space-x-4">
+    <!-- Searchfield -->
+    <input type="text" placeholder="Search... "
+      class="px-3 py-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+
+  </div>
 </div>
-<div>
-    <div class="my-6 relative">
-        <span class="absolute left-1/2 transform -translate-x-1/2 -top-3 bg-green-700 px-2 text-white ">
-            Pending
-        </span>
-        <hr class="border-green-700" /> 
-    </div>
 
-     <div class="my-6 relative">
-        <span class="absolute left-1/2 transform -translate-x-1/2 -top-3 bg-blue-700 px-2 text-white">
-            In Progress
-        </span>
-        <hr class="border-blue-700" />
-    </div>
+<!-- Orders Lists -->
+<div class="mt-6">
 
-     <div class="my-6 relative">
-        <span class="absolute left-1/2 transform -translate-x-1/2 -top-3 bg-orange-700 px-2 text-white">
-            Completed
-        </span>
-        <hr class="border-orange-700" />
-    </div>
+  <!-- Pending Orders -->
+  <div *ngIf="activeOrderTab === 'pending' && pendingOrders.length">
+    <ul class="space-y-2">
+      <li *ngFor="let order of getPendingOrdersForPage()" class="px-4 py-2 bg-gray-100 rounded shadow">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order number</span>
+            <span class="font-bold">{{ order.order_number }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Title</span>
+            <span>{{ order.title }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Assigned contact person</span>
+            <span>{{ order.assigned_contact_person }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order date</span>
+            <span>{{ order.order_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Delivery date</span>
+            <span>{{ order.delivery_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Priority</span>
+            <span>{{ order.priority }}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
 
-     <div class="my-6 relative">
-        <span class="absolute left-1/2 transform -translate-x-1/2 -top-3 bg-red-700 px-2 text-white">
-            Cancelled
-        </span>
-        <hr class="border-red-700" />
+    <!-- Pagination -->
+    <div class="flex justify-center items-center space-x-4 mt-4">
+      <button class="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
+        (click)="pendingPage = pendingPage - 1" [disabled]="pendingPage === 1">← Previous</button>
+      <span class="text-white bg-gray-800 px-3 py-1 rounded">
+        Page {{ pendingPage }} / {{ pendingMaxPage }}
+      </span>
+      <button class="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
+        (click)="pendingPage = pendingPage + 1" [disabled]="pendingPage >= pendingMaxPage">Next →</button>
     </div>
-</div>
+  </div>
+
+  <!-- In Progress Orders -->
+  <div *ngIf="activeOrderTab === 'inprogress' && inProgressOrders.length">
+    <ul class="space-y-2">
+      <li *ngFor="let order of getInProgressOrdersForPage()" class="px-4 py-2 bg-gray-100 rounded shadow">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order number</span>
+            <span class="font-bold">{{ order.order_number }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Title</span>
+            <span>{{ order.title }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Assigned contact person</span>
+            <span>{{ order.assigned_contact_person }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order date</span>
+            <span>{{ order.order_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Delivery date</span>
+            <span>{{ order.delivery_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Priority</span>
+            <span>{{ order.priority }}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center space-x-4 mt-4">
+      <button class="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
+        (click)="inProgressPage = inProgressPage - 1" [disabled]="inProgressPage === 1">← Previous</button>
+      <span class="text-white bg-gray-800 px-3 py-1 rounded">
+        Page {{ inProgressPage }} / {{ inProgressMaxPage }}
+      </span>
+      <button class="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
+        (click)="inProgressPage = inProgressPage + 1" [disabled]="inProgressPage >= inProgressMaxPage">Next →</button>
+    </div>
+  </div>
+
+  <!-- Completed Orders -->
+  <div *ngIf="activeOrderTab === 'completed' && completedOrders.length">
+    <ul class="space-y-2">
+      <li *ngFor="let order of getCompletedOrdersForPage()" class="px-4 py-2 bg-gray-100 rounded shadow">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order number</span>
+            <span class="font-bold">{{ order.order_number }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Title</span>
+            <span>{{ order.title }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Assigned contact person</span>
+            <span>{{ order.assigned_contact_person }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order date</span>
+            <span>{{ order.order_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Delivery date</span>
+            <span>{{ order.delivery_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Priority</span>
+            <span>{{ order.priority }}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center space-x-4 mt-4">
+      <button class="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
+        (click)="completedPage = completedPage - 1" [disabled]="completedPage === 1">← Previous</button>
+      <span class="text-white bg-gray-800 px-3 py-1 rounded">
+        Page {{ completedPage }} / {{ completedMaxPage }}
+      </span>
+      <button class="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
+        (click)="completedPage = completedPage + 1" [disabled]="completedPage >= completedMaxPage">Next →</button>
+    </div>
+  </div>
+
+  <!-- Cancelled Orders -->
+  <div *ngIf="activeOrderTab === 'cancelled' && cancelledOrders.length">
+    <ul class="space-y-2">
+      <li *ngFor="let order of getCancelledOrdersForPage()" class="px-4 py-2 bg-gray-100 rounded shadow">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order number</span>
+            <span class="font-bold">{{ order.order_number }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Title</span>
+            <span>{{ order.title }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Assigned contact person</span>
+            <span>{{ order.assigned_contact_person }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Order date</span>
+            <span>{{ order.order_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Delivery date</span>
+            <span>{{ order.delivery_date }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-gray-600 text-sm">Priority</span>
+            <span>{{ order.priority }}</span>
+          </div>
+        </div>
+      </li>

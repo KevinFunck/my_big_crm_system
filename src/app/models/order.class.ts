@@ -9,6 +9,7 @@ export class Order {
     assigned_contact_person: string = '';
     customer_id: string = '';
     description: string = '';
+    title: string = '';
 
     constructor(obj?: any) {
         if (obj) {
@@ -22,6 +23,7 @@ export class Order {
             this.assigned_contact_person = obj.assigned_contact_person || '';
             this.customer_id = obj.customer_id || '';
             this.description = obj.description || '';
+            this.title = obj.title || '';
 
         }
     }
@@ -37,6 +39,7 @@ export class Order {
             assigned_contact_person: this.assigned_contact_person,
             customer_id: this.customer_id,
             description: this.description,
+            title: this.title
 
         };
     }
