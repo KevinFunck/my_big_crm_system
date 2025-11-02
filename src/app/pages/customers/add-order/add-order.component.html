@@ -1,10 +1,14 @@
+<!-- Header / Form title -->
 <div class="flex items-center justify-center bg-gray-800 rounded-tl-xl rounded-tr-xl p-2 mb-3">
     <h2 class="text-3xl font-bold text-cyan-50">Add a new order</h2>
 </div>
 
+<!-- Main form container -->
 <div class="border-cyan-600 border-2 rounded-xl p-3 space-y-4">
-    <!-- Erste Zeile -->
+
+    <!-- First row of inputs: Title, Order date, Delivery date, Status -->
     <div class="flex justify-between flex-wrap gap-4">
+        <!-- Order title input -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Title</label>
             <input id="orderNumber" type="text" placeholder="Enter title"
@@ -12,18 +16,21 @@
 
         </div>
 
+        <!-- Order date input -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Order date</label>
             <input id="orderDate" type="date" class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
                 [(ngModel)]="order.order_date" />
         </div>
 
+        <!-- Delivery date input -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Delivery date</label>
             <input id="deliveryDate" type="date" class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1"
                 [(ngModel)]="order.delivery_date" />
         </div>
 
+        <!-- Status dropdown -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Status</label>
             <select id="orderStatus" [(ngModel)]="order.status" [ngClass]="{
@@ -42,9 +49,10 @@
         </div>
     </div>
 
-    <!-- Zweite Zeile -->
+    <!-- Second row of inputs: Priority, Order number, Total amount, Assigned contact -->
     <div class="flex justify-between flex-wrap gap-4">
 
+        <!-- Priority dropdown -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Priority</label>
             <select id="priority" [(ngModel)]="order.priority" [ngClass]="{
@@ -63,6 +71,7 @@
             </select>
         </div>
 
+        <!-- Order number input -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Order number</label>
             <input id="orderNumber" type="text" placeholder="Enter order number"
@@ -70,12 +79,14 @@
 
         </div>
 
+        <!-- Total amount input -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Total amount (€)</label>
             <input id="orderAmount" type="number" min="0" step="0.01" placeholder="Enter total amount"
                 class="border-cyan-600 border-2 rounded-md w-64 h-10 px-3 mt-1" [(ngModel)]="order.total_amount" />
         </div>
 
+        <!-- Assigned contact person dropdown -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Assigned contact person</label>
             <select id="assignedTo" [(ngModel)]="order.assigned_contact_person" name="assignedTo"
@@ -88,18 +99,21 @@
         </div>
     </div>
 
+    <!-- Description textarea -->
     <div>
         <label class="block text-sm font-medium text-gray-700">Description</label>
         <textarea id="orderDescription" placeholder="Enter order description"
             class="border-cyan-600 border-2 rounded-md w-[26rem] h-24 px-3 mt-1 resize-none"></textarea>
     </div>
 
-    <!-- Buttons -->
+    <!-- Form action buttons -->
     <div class="flex justify-center pt-4">
+        <!-- Back button -->
         <button
             class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out">
             Back
         </button>
+        <!-- Add order button -->
         <button (click)=" addOrder()"
             class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out ml-3">
             Add
