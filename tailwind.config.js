@@ -14,9 +14,14 @@ module.exports = {
             transform: 'scale(1.02)'
           },
         },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
       },
       animation: {
-        glowPop: 'glowPop 1.2s ease-in-out 3',
+        glowPop: 'glowPop 1.2s ease-in-out forwards',
+        fadeOut: 'fadeOut 0.5s ease-in-out forwards',
       },
     },
   },
