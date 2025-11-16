@@ -31,7 +31,7 @@ export class OrdersComponent {
   constructor(private route: ActivatedRoute, private router: Router, private ordersService: OrdersService) { }
 
   ngOnInit() {
-    // 🔥 Customer-ID direkt aus Route holen (z. B. /customers/123/orders)
+    // Customer-ID direkt aus Route holen (z. B. /customers/123/orders)
     this.customerId = this.route.snapshot.paramMap.get('id')!;
     console.log('Customer-ID aus Route:', this.customerId);
 
@@ -144,6 +144,14 @@ export class OrdersComponent {
     if (tab === 'inprogress') this.inProgressPage = 1;
     if (tab === 'completed') this.completedPage = 1;
     if (tab === 'cancelled') this.cancelledPage = 1;
+  }
+
+
+  goToOrderDetails(order: Order) {
+    if (!this.customerId) return;
+
+  
+    this.router.navigate([`/customers/${this.customerId}/orders/${order.id}`]);
   }
 
 }

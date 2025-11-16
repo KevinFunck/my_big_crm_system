@@ -1,0 +1,100 @@
+<!-- Header -->
+<div class="flex items-center justify-between bg-gray-800 rounded-tl-xl rounded-tr-xl p-2">
+  <h2 class="text-3xl font-bold text-cyan-50">Order Details</h2>
+  <div class="space-x-2">
+    <!-- Edit button -->
+    <button *ngIf="!isEditMode" (click)="toggleEdit()"
+      class="px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700">
+      Edit
+    </button>
+    <!-- Save + Cancel buttons -->
+    <ng-container *ngIf="isEditMode">
+      <button (click)="saveChanges()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        Save
+      </button>
+      <button (click)="cancelEdit()" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+        Cancel
+      </button>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Order Details Form -->
+<div class="border-cyan-600 border-2 rounded-xl p-4 mt-4 space-y-4 bg-gray-50">
+
+  <!-- First row: Order number, Title -->
+  <div class="flex flex-wrap gap-4">
+    <div class="flex flex-col w-64">
+      <label class="text-sm font-medium text-gray-700">Order Number</label>
+      <input type="text" [(ngModel)]="order.order_number" [readonly]="!isEditMode"
+        class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+    </div>
+    <div class="flex flex-col w-64">
+      <label class="text-sm font-medium text-gray-700">Title</label>
+      <input type="text" [(ngModel)]="order.title" [readonly]="!isEditMode"
+        class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+    </div>
+  </div>
+
+  <!-- Second row: Status, Priority -->
+  <div class="flex flex-wrap gap-4">
+    <div class="flex flex-col w-64">
+      <label class="text-sm font-medium text-gray-700">Status</label>
+      <select [(ngModel)]="order.status" [disabled]="!isEditMode"
+        class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div class="flex flex-col w-64">
+      <label class="text-sm font-medium text-gray-700">Priority</label>
+      <select [(ngModel)]="order.priority" [disabled]="!isEditMode"
+        class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+        <option value="Low">Low</option>
+        <option value="Normal">Normal</option>
+        <option value="High">High</option>
+        <option value="Urgent">Urgent</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Third row: Order date, Delivery date, Total amount -->
+  <div class="flex flex-wrap gap-4">
+    <div class="flex flex-col w-64">
+      <label class="text-sm font-medium text-gray-700">Order Date</label>
+      <input type="date" [(ngModel)]="order.order_date" [readonly]="!isEditMode"
+        class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+    </div>
+    <div class="flex flex-col w-64">
+      <label class="text-sm font-medium text-gray-700">Delivery Date</label>
+      <input type="date" [(ngModel)]="order.delivery_date" [readonly]="!isEditMode"
+        class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+    </div>
+    <div class="flex flex-col w-64">
+      <label class="text-sm font-medium text-gray-700">Total Amount (€)</label>
+      <input type="number" [(ngModel)]="order.total_amount" [readonly]="!isEditMode" min="0" step="0.01"
+        class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"/>
+    </div>
+  </div>
+
+  <!-- Fourth row: Assigned contact person -->
+  <div class="flex flex-col w-64">
+    <label class="text-sm font-medium text-gray-700">Assigned Contact Person</label>
+    <select [(ngModel)]="order.assigned_contact_person" [disabled]="!isEditMode"
+      class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+      <option *ngFor="let person of contactPersons" [value]="person.id">
+        {{ person.contactName }} ({{ person.email }})
+      </option>
+    </select>
+  </div>
+
+  <!-- Fifth row: Description / Notes -->
+  <div class="flex flex-col w-full">
+    <label class="text-sm font-medium text-gray-700">Description</label>
+    <textarea [(ngModel)]="order.description" [readonly]="!isEditMode"
+      class="border-cyan-600 border-2 rounded-md px-3 py-2 mt-1 resize-none h-32 bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"></textarea>
+  </div>
+
+</div>

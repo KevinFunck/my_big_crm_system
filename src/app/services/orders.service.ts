@@ -42,11 +42,11 @@ export class OrdersService {
   }
 
   /** Update an existing order */
-  async updateOrder(order: Order): Promise<Order> {
+  async updateOrder(id: string, order: Order): Promise<Order> {
     const { data, error } = await this.client
       .from('orders')
       .update(order)
-      .eq('id', order.id)
+      .eq('id', id)  // <--- korrigiert
       .select()
       .single();
     if (error) throw error;

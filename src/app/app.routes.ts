@@ -2,6 +2,12 @@ import { Routes } from '@angular/router';
 
 
 export const routes: Routes = [
+    {
+    path: 'login',
+    loadComponent: () =>
+      import('./auth/login/login.component')
+        .then(m => m.LoginComponent)
+  },
   {
     path: 'dashboard',
     loadComponent: () =>
@@ -50,8 +56,14 @@ export const routes: Routes = [
         .then(m => m.AddOrderComponent)
   },
   {
+    path: 'customers/:id/orders/:orderId',
+    loadComponent: () =>
+      import('./pages/customers/order-details/order-details.component')
+        .then(m => m.OrderDetailsComponent)
+  },
+  {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full'
   }
 ];
