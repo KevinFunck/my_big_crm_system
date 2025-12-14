@@ -78,13 +78,6 @@ export class OrdersComponent {
   }
 
 
-  // scrollToSection(sectionId: string) {
-  //   const el = document.getElementById(sectionId);
-  //   if (el) {
-  //     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  //   }
-  // }
-
   // --------------- GETTERS FOR MAX PAGES ------------------
 
   /** Calculate max page for pending orders */
